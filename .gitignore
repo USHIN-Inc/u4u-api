@@ -1,0 +1,9 @@
+# Next two lines ignore build output
+bin/
+obj/
+
+# .vs is a folder used internally by visual studio. Not a source file / folder.
+.vs/
+
+# .DS_Store is used internally by Mac OS. Not needed in source.
+.DS_Store
