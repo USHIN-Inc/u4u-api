@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ushinsvc.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ushinsvc.Models;
 
 namespace ushinsvc.Controllers
 {
@@ -11,19 +11,25 @@ namespace ushinsvc.Controllers
     [ApiController]
     public class NodeController : ControllerBase
     {
-        private readonly NodeContext _context;
+        private readonly U4UContext _context;
 
-        public NodeController(NodeContext context)
+        public NodeController(U4UContext context)
         {
             _context = context;
 
-            if (_context.Nodes.Count() == 0)
-            {
-                // Create a new Node if collection is empty,
-                // which means you can't delete all Nodes.
-                _context.Nodes.Add(new Node { title = "The title of the node" });
-                _context.SaveChanges();
-            }
+            // set "false" to true in this if statement to programmatically create a node
+            // assumes a user with ID exists to be the owner of the node
+            //if (false)
+            //{
+            //    // Create a new Node if collection is empty,
+            //    // which means you can't delete all Nodes.
+            //    _context.Nodes.Add(new Node {
+            //        Title = "The title of the node",
+            //        Category = "Some category",
+            //        UserId = 1
+            //        });
+            //    _context.SaveChanges();
+            //}
         }
 
         // GET: api/Nodes
@@ -54,14 +60,14 @@ namespace ushinsvc.Controllers
             _context.Nodes.Add(node);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetNode), new { id = node.id }, node);
+            return CreatedAtAction(nameof(GetNode), new { id = node.Id }, node);
         }
 
         // PUT: api/Node/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutNode(long id, Node node)
         {
-            if (id != node.id)
+            if (id != node.Id)
             {
                 return BadRequest();
             }

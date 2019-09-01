@@ -1,15 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using ushinsvc.Controllers;
+
 namespace ushinsvc.Models
 {
     public class Node
     {
-        public long id { get; set; }
-        public string title { get; set; }
-        public string category { get; set; }
-        public long parent_id { get; set; }
+        public Node()
+        {
+            InverseParent = new HashSet<Node>();
+        }
 
-        public DateTime created { get; set; }
-        public DateTime modified { get; set; }
-        public long user_id { get; set; }
+        public long Id { get; set; }
+        public string Title { get; set; }
+        public string Category { get; set; }
+        public long? ParentId { get; set; }
+        public string Created { get; set; }
+        public string Modified { get; set; }
+        public long UserId { get; set; }
+
+        public virtual Node Parent { get; set; }
+        public virtual User User { get; set; }
+        public virtual ICollection<Node> InverseParent { get; set; }
     }
 }

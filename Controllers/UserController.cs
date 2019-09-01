@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ushinsvc.Models;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using ushinsvc.Models;
+
 
 namespace ushinsvc.Controllers
 {
@@ -11,26 +12,36 @@ namespace ushinsvc.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly UserContext _context;
+        private readonly U4UContext _context;
 
-        public UserController(UserContext context)
+        public UserController(U4UContext context)
         {
             _context = context;
 
-            if (_context.Users.Count() == 0)
-            {
-                // Create a new User if collection is empty,
-                // which means you can't delete all Users.
-                _context.Users.Add(new User { email = "user@somewhere.com" });
-                _context.SaveChanges();
-            }
+            // set "false" to true in this if statement to programmatically create a user
+            //if (false)
+            //{
+            //    // Create a new User if collection is empty,
+            //    // which means you can't delete all Users.
+            //    _context.Users.Add(new User {
+            //        Email = "user@somewhere.com",
+            //        Password = "password1",
+            //        Username = "someuser"
+            //    }) ;
+            //    _context.SaveChanges();
+            //}
         }
 
         // GET: api/users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            List<User> users = await _context.Users.ToListAsync();
+            foreach(User u in users)
+            {
+                u.Password = null;
+            }
+            return users;
         }
 
         // GET: api/users/5
@@ -38,6 +49,7 @@ namespace ushinsvc.Controllers
         public async Task<ActionResult<User>> GetUser(long id)
         {
             var user = await _context.Users.FindAsync(id);
+            user.Password = null;
 
             if (user == null)
             {
@@ -54,14 +66,14 @@ namespace ushinsvc.Controllers
             _context.Users.Add(user);   
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction(nameof(GetUser), new { id = user.id }, user);
+            return CreatedAtAction(nameof(GetUser), new { id = user.Id }, user);
         }
 
         // PUT: api/User/5
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(long id, User user)
         {
-            if (id != user.id)
+            if (id != user.Id)
             {
                 return BadRequest();
             }
