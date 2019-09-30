@@ -19,10 +19,6 @@ namespace ushinsvc
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>()
-                .ConfigureKestrel((context, options) =>
-                {
-                    // set properties and call methods on options
-                });
+                .UseStartup<Startup>();
     }
 }
