@@ -22,7 +22,9 @@ namespace ushinsvc.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Node>>> GetNodes()
         {
-            return await _context.Nodes.Include(n => n.User).ToListAsync();
+            return await _context.Nodes
+		.Include(n => n.User)
+		.ToListAsync();
         }
 
         // GET: api/Nodes/5
@@ -31,6 +33,7 @@ namespace ushinsvc.Controllers
         {
             var node = await _context.Nodes
 		.Include(n => n.User)
+		.Include(n => n.ParentNode)
 		.Include(n => n.ChildNodes)
 		.FirstOrDefaultAsync(i => i.Id == id);
 
