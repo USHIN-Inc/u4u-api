@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ushinsvc.Models
 {
-    public class User
+    public class User : TimestampEntity
     {
         public long Id { get; set; }
 	[Required]
@@ -15,8 +15,6 @@ namespace ushinsvc.Models
         public string Password { get; set; }
 	[MaxLength(255)]
         public string Email { get; set; }
-        public DateTime Created { get; set; }
-        public DateTime Modified { get; set; }
         public virtual ICollection<Node> Nodes { get; set; }
     }
 }
