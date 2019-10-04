@@ -22,9 +22,16 @@ namespace ushinsvc.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            return await _context.Users
-		.Include(u => u.Nodes)
-		.ToListAsync();
+            List<User> users = await _context.Users
+                .Include(u => u.Nodes)
+                .ToListAsync();
+
+            foreach(User u in users)
+            {
+                u.Password = null;
+            }
+
+            return users;
         }
 
         // GET: api/Users/5
@@ -32,14 +39,15 @@ namespace ushinsvc.Controllers
         public async Task<ActionResult<User>> GetUser(long id)
         {
             var user = await _context.Users
-		.Include(u => u.Nodes)
-		.FirstOrDefaultAsync(i => i.Id == id);
-		
+                .Include(u => u.Nodes)
+                .FirstOrDefaultAsync(i => i.Id == id);
+
             if (user == null)
             {
                 return NotFound();
             }
 
+            user.Password = null;
             return user;
         }
 
