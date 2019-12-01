@@ -1,11 +1,11 @@
-﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using ushinsvc.Models;
-using System;
 
 namespace ushinsvc
 {
@@ -21,17 +21,12 @@ namespace ushinsvc
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string dbEngine = Environment.GetEnvironmentVariable("u4u_db_engine"); // not used yet. comes into play when
-                                                                                   // other DB engines are supported
-            string dbConnectionString = Environment.GetEnvironmentVariable("u4u_connection_string");
-            services.AddDbContext<U4UContext>(opt =>
-                opt.UseSqlite(dbConnectionString)); 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-                .AddJsonOptions(
-                    options => options.SerializerSettings.ReferenceLoopHandling =
-                        Newtonsoft.Json.ReferenceLoopHandling.Ignore
-                ) ;
-            
+            services.AddDbContext<U4UDbContext>(opt =>
+                opt.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddMvc()
+		.SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+		.AddJsonOptions(opt =>
+		    opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,6 +38,7 @@ namespace ushinsvc
             }
             else
             {
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
 

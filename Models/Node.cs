@@ -1,27 +1,23 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using ushinsvc.Controllers;
+using System.ComponentModel.DataAnnotations;
 
 namespace ushinsvc.Models
 {
-    public class Node
+    public class Node : TimestampEntity
     {
-        public Node()
-        {
-            InverseParent = new HashSet<Node>();
-        }
-
         public long Id { get; set; }
+	[Required]
+	[MaxLength(255)]
         public string Title { get; set; }
+	[Required]
+	[MaxLength(255)]
         public string Category { get; set; }
-        public long? ParentId { get; set; }
-        public string Created { get; set; }
-        public string Modified { get; set; }
-        public long UserId { get; set; }
-
-        public virtual Node Parent { get; set; }
-        public virtual User User { get; set; }
-        public virtual ICollection<Node> InverseParent { get; set; }
+	public long? ParentNodeId { get; set; }
+        public virtual Node ParentNode { get; set; }
+        public virtual ICollection<Node> ChildNodes { get; set; }
+	[Required]
+	public long UserId { get; set; }
+	public virtual User User { get; set; }
     }
 }

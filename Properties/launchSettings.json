@@ -4,29 +4,25 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:19758",
-      "sslPort": 44374
+      "applicationUrl": "http://localhost:37626",
+      "sslPort": 44365
     }
   },
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
-      "launchBrowser": true,
-      "launchUrl": "api/users",
+      "launchBrowser": false,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "ushinsvc": {
       "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "api/users",
+      "launchBrowser": false,
+      "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
-        "u4u_connection_string": "Data Source=/Users/josedurazo/Documents/Temp/u4u2.db;",
-        "u4u_db_engine": "sqlite",
         "ASPNETCORE_ENVIRONMENT": "Development"
-      },
-      "applicationUrl": "https://localhost:5001;http://localhost:80"
+      }
     }
   }
 }

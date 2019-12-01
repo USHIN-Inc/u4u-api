@@ -5,32 +5,10 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <WarningLevel></WarningLevel>
-    <TreatWarningsAsErrors></TreatWarningsAsErrors>
-    <ExternalConsole>false</ExternalConsole>
-    <Commandlineparameters></Commandlineparameters>
-  </PropertyGroup>
   <ItemGroup>
-    <Folder Include="wwwroot\" />
-    <Folder Include="Models\" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.2.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App">
-      <IsImplicitlyDefined>true</IsImplicitlyDefined>
-      <PrivateAssets>all</PrivateAssets>
-      <Publish>true</Publish>
-    </PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="2.2.6" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="Models\Nodes.cs" />
-    <Compile Remove="Models\Users.cs" />
-    <Compile Remove="Models\u4uContext.cs" />
-    <Compile Remove="Models\UserContext.cs" />
-    <Compile Remove="Models\u4uContext1.cs" />
-    <Compile Remove="Models\U4UContext.cs" />
-  </ItemGroup>
 </Project>
